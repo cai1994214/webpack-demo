@@ -8,5 +8,15 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'boundle.js'
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                use: {
+                    loader: 'file-loader',
+                }
+            }
+        ]
     }
 }
