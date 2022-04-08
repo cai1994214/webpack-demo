@@ -3,14 +3,15 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HemlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-	entry: {
+	mode: "production", //默认是production
+    entry: {
 		main: "./src/index.js",
 	},
-	mode: "production", //默认是production
+    devtool: 'cheap-module-source-map', 
 	output: {
-		publicPath: "./",
+		publicPath: "./", //可以配置cdn 如果服务器存储了打包后的js
 		path: path.resolve(__dirname, "dist"),
-		filename: "boundle.js",
+		filename: "[name].js", //入口文件的key值对应的文件名
 	},
 	module: {
 		rules: [
@@ -37,9 +38,9 @@ module.exports = {
 					{
 						loader: "css-loader",
 						options: {
-                            //在 css-loader 前应用的 loader 的数量 比如在scss文件里重新引入别的scss文件 需要配置两个loader重新编译
+							//在 css-loader 前应用的 loader 的数量 比如在scss文件里重新引入别的scss文件 需要配置两个loader重新编译
 							importLoaders: 2,
-                            modules: true, //使用css模块化
+							modules: true, //使用css模块化
 						},
 					},
 					"sass-loader",
