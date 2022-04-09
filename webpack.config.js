@@ -3,15 +3,23 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HemlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-	mode: "production", //默认是production
-    entry: {
+	mode: "development", //默认是production
+	entry: {
 		main: "./src/index.js",
 	},
-    devtool: 'cheap-module-source-map', 
+	devtool: "cheap-module-eval-source-map",
 	output: {
 		publicPath: "./", //可以配置cdn 如果服务器存储了打包后的js
 		path: path.resolve(__dirname, "dist"),
 		filename: "[name].js", //入口文件的key值对应的文件名
+	},
+	devServer: {
+		publicPath: '/',
+		contentBase: path.resolve(__dirname, "./"),
+		// openPage: "./dist/index.html",
+		compress: true,
+		open: true,
+		inline: true,
 	},
 	module: {
 		rules: [
@@ -50,9 +58,10 @@ module.exports = {
 		],
 	},
 	plugins: [
-		new CleanWebpackPlugin(),
+		new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
 		new HemlWebpackPlugin({
 			template: "./src/index.html",
+			filename: "index.html",
 		}),
 	],
 };
