@@ -1,13 +1,22 @@
+import Counter from './counter';
+import Number from './number';
+// import './style.css';
+// var btn = document.createElement('button');
+// btn.innerHTML = '点击';
+// document.body.appendChild(btn);
+// btn.onclick = function() {
+//     var div = document.createElement('div');
+//     div.innerHTML = 'item';
+//     document.body.appendChild(div);
+// }
 
-import demo from './demo1.png';
-import CreateAvator from './createAvator.js'
-import style from './index.scss';
+Counter();
 
+Number();
 
-CreateAvator(demo);
-var dom = document.getElementById('root');
-var img = new Image();
-console.log('demo is dell lee! ');
-img.setAttribute('class', style.avator);// 使用css模块化
-img.src = demo;
-dom.append(img);
+if(module.hot) {
+    module.hot.accept('./number', () => {
+        document.body.removeChild(document.getElementById('Number'));
+        Number();
+    })
+}

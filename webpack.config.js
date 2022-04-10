@@ -1,6 +1,7 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HemlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require('webpack');
 
 module.exports = {
 	mode: "development", //默认是production
@@ -18,7 +19,8 @@ module.exports = {
 		contentBase: path.resolve(__dirname, "./"),
 		// openPage: "./dist/index.html",
 		compress: true,
-		open: true,
+		hot: true,
+		hotOnly: true,
 		inline: true,
 	},
 	module: {
@@ -63,5 +65,6 @@ module.exports = {
 			template: "./src/index.html",
 			filename: "index.html",
 		}),
+		new webpack.HotModuleReplacementPlugin(),
 	],
 };
