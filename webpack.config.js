@@ -5,7 +5,7 @@ const HemlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
 	mode: "development", //默认是production
 	entry: {
-		main: "./src/index.js",
+		main: ["./src/index.js"],
 	},
 	devtool: "cheap-module-eval-source-map",
 	output: {
@@ -14,7 +14,7 @@ module.exports = {
 		filename: "[name].js", //入口文件的key值对应的文件名
 	},
 	devServer: {
-		publicPath: '/',
+		publicPath: "/",
 		contentBase: path.resolve(__dirname, "./"),
 		// openPage: "./dist/index.html",
 		compress: true,
@@ -23,6 +23,35 @@ module.exports = {
 	},
 	module: {
 		rules: [
+			{
+				test: /\.m?js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: "babel-loader",
+					// options: {
+					// 	// presets: [[
+					// 	// 	"@babel/preset-env",
+					// 	// 	{
+					// 	// 		// "targets": {
+					// 	// 		// 	"chrome": "67",
+					// 	// 		// },
+					// 	// 		"useBuiltIns": "usage"
+					// 	// 	},
+					// 	// ]],
+					// 	plugins: [
+					// 		[
+					// 			"@babel/plugin-transform-runtime",
+					// 			{
+					// 				corejs: 2,
+					// 				helpers: true,
+					// 				regenerator: true,
+					// 				useESModules: false,
+					// 			},
+					// 		],
+					// 	],
+					// },
+				},
+			},
 			{
 				test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
 				use: {
