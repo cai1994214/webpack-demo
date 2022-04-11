@@ -1,3 +1,3 @@
-import { add } from './math';
+import _ from 'lodash';
 
-add(1, 4);
+console.log(_.join(['a', 'b', 'c'], '-'));

@@ -4,6 +4,7 @@ const HemlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
 	entry: {
+		lodash: ["./src/lodash.js"],
 		main: ["./src/index.js"],
 	},
 	output: {
