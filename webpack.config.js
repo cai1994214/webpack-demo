@@ -93,4 +93,7 @@ module.exports = {
 			filename: "index.html",
 		}),
 	],
+	optimization: {
+		usedExports: true,
+	}
 };

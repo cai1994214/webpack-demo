@@ -1,8 +1,3 @@
-const arr = [
-    new Promise(() => {}),
-    new Promise(() => {}),
-]
+import { add } from './math';
 
-arr.map(e => {
-    console.log(e, 'e')
-})
+add(1, 2);
