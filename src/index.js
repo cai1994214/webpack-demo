@@ -1,9 +1,2 @@
-
-
-document.addEventListener("click", () => {
-	import(/* webpackPrefetch: true */ './click').then(({handleClick}) => {
-		handleClick()
-	})
-});
-
-
+import './index.css';
+import './style.css';
