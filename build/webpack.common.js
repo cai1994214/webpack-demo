@@ -4,7 +4,6 @@ const HemlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
 	entry: {
-		lodash: ["./src/lodash.js"],
 		main: ["./src/index.js"],
 	},
 	output: {
@@ -64,5 +63,27 @@ module.exports = {
 	],
 	optimization: {
 		usedExports: true,
-	}
+		splitChunks: {
+			//splitChunk默认对异步打包
+			chunks: "all", //async initial 异步同步 all所有
+			minSize: 30000,
+			minChunks: 1,
+			maxAsyncRequests: 5,
+			maxInitialRequests: 3,
+			automaticNameDelimiter: "~",
+			name: true,
+			cacheGroups: {
+				//缓存分组
+				vendors: {
+					test: /[\\/]node_modules[\\/]/,//打包后的文件名 打包node_modules内的
+					priority: -10,
+				},
+				default: { //打包引入自己的js 
+					minChunks: 1,
+					priority: -20,
+					reuseExistingChunk: true, 
+				},
+			},
+		},
+	},
 };
