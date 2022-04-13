@@ -13,6 +13,12 @@ const devConfig = {
     open: true,
     inline: true,
   },
+  output: {
+    publicPath: "./", //可以配置cdn 如果服务器存储了打包后的js
+    path: path.resolve(__dirname, "../dist"),
+    filename: "[name].js", //入口文件的key值对应的文件名
+    chunkFilename: "[name].js", //异步加载的文件名
+  },
   plugins: [new webpack.HotModuleReplacementPlugin()],
   module: {
     rules: [

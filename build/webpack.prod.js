@@ -2,10 +2,18 @@ const merge = require("webpack-merge");
 const commConfig = require("./webpack.common.js");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const path = require("path");
 
 const prodConfig = {
   mode: "production",
-  devtool: "cheap-module-source-map",
+  // devtool: "cheap-module-source-map",
+  devtool: false,
+  output: {
+    publicPath: "./", //可以配置cdn 如果服务器存储了打包后的js
+    path: path.resolve(__dirname, "../dist"),
+    filename: "[name][contenthash].js", //根据hash解决浏览器缓存
+    chunkFilename: "[name][contenthash].js", //根据hash解决浏览器缓存
+  },
   module: {
     rules: [
       {
@@ -32,8 +40,6 @@ const prodConfig = {
   },
   optimization: {
     minimizer: [
-      // 在 webpack@5 中，你可以使用 `...` 语法来扩展现有的 minimizer（即 `terser-webpack-plugin`），将下一行取消注释
-      // `...`,
       new CssMinimizerPlugin(),
     ],
   },

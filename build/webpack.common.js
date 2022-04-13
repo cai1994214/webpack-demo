@@ -3,15 +3,11 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HemlWebpackPlugin = require("html-webpack-plugin");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const webpack = require('webpack');
 
 module.exports = {
   entry: {
     main: ["./src/index.js"],
-  },
-  output: {
-    publicPath: "./", //可以配置cdn 如果服务器存储了打包后的js
-    path: path.resolve(__dirname, "../dist"),
-    filename: "[name].js", //入口文件的key值对应的文件名
   },
   module: {
     rules: [
@@ -42,13 +38,19 @@ module.exports = {
       template: "./src/index.html",
       filename: "index.html",
     }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+    })
     // new BundleAnalyzerPlugin(),
   ],
   optimization: {
+    runtimeChunk:{
+      name: 'runtime'
+    },
     usedExports: true,
     splitChunks: {
       //splitChunk默认对异步打包
-      chunks: "async", //async initial 异步同步 all所有
+      chunks: "all", //async initial 异步同步 all所有
       minSize: 30000,
       minChunks: 1,
       maxAsyncRequests: 5,
@@ -59,6 +61,7 @@ module.exports = {
         //缓存分组
         vendors: {
           test: /[\\/]node_modules[\\/]/, //打包后的文件名 打包node_modules内的
+          filename: "vendors-chunk.js",
           priority: -10,
         },
         default: {
