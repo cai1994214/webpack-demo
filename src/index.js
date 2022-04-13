@@ -1,3 +1,4 @@
-import red from './demo';
+import * as math from './math.js';
+import * as string from './string';
 
-red();
+export default { math, string };

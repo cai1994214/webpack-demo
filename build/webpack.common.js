@@ -53,9 +53,6 @@ const commConfig = {
     // new BundleAnalyzerPlugin(),
   ],
   optimization: {
-    runtimeChunk: {
-      name: 'runtime',
-    },
     usedExports: true,
     splitChunks: {
       //splitChunk默认对异步打包

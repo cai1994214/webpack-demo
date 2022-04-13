@@ -14,8 +14,9 @@ const devConfig = {
   output: {
     publicPath: './', //可以配置cdn 如果服务器存储了打包后的js
     path: path.resolve(__dirname, '../dist'),
-    filename: '[name].js', //入口文件的key值对应的文件名
-    chunkFilename: '[name].js', //异步加载的文件名
+    filename: 'library.js', //入口文件的key值对应的文件名
+    libraryTarget: 'umd', //默认是var 可以改成umd
+    library: 'library', // 打包生成的插件库 可以用script标签引入 并且library是一个全局对象
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],
   module: {
