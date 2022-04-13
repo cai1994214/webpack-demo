@@ -1,3 +1,3 @@
-export function red () {
-    $('body').css('background', 'red');
-}
+export default function red() {
+  $('body').css('background', _.join(['red'], '-'));
+};
