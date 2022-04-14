@@ -13,35 +13,51 @@ function resolve(dir) {
   return path.join(__dirname, '.', dir);
 }
 
-const comPlugins = [
-  new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
-  new HemlWebpackPlugin({
-    template: './src/index.html',
-    filename: 'index.html',
-  }),
-];
+const makePlugins = (config) => {
+  //生成plugins
+  const comPlugins = [
+    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      _: 'lodash',
+    }),
+  ];
 
-const files = fs.readdirSync(path.resolve(__dirname, '../dll'));
-
-files.forEach((file) => {
-  if (file.includes('.manifest')) {
+  Object.entries(config.entry).forEach(([name, value]) => {
     comPlugins.push(
-      new webpack.DllReferencePlugin({
-        manifest: path.resolve(__dirname, `../dll/${file}`),
+      new HemlWebpackPlugin({
+        template: './src/index.html',
+        filename: `${name}.html`,
+        chunks: ['runtime', 'vendors', name],
       })
     );
-  }
-  if (file.includes('.dll')) {
-    comPlugins.push(
-      new AddAssetHtmlPlugin({
-        filepath: path.resolve(__dirname, `../dll/${file}`),
-      })
-    );
-  }
-});
+  });
+
+  const files = fs.readdirSync(path.resolve(__dirname, '../dll'));
+  files.forEach((file) => {
+    if (file.includes('.manifest')) {
+      comPlugins.push(
+        new webpack.DllReferencePlugin({
+          manifest: path.resolve(__dirname, `../dll/${file}`),
+        })
+      );
+    }
+    if (file.includes('.dll')) {
+      comPlugins.push(
+        new AddAssetHtmlPlugin({
+          filepath: path.resolve(__dirname, `../dll/${file}`),
+        })
+      );
+    }
+  });
+  return comPlugins;
+};
+
 const commConfig = {
   entry: {
     main: ['./src/index.js'],
+    demo: ['./src/demo.js'],
+	list: ['./src/list.js']
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
@@ -80,19 +96,6 @@ const commConfig = {
     ],
   },
   plugins: [
-    ...comPlugins,
-    // new AddAssetHtmlPlugin({
-    //   filepath: path.resolve(__dirname, '../dll/vendors.dll.js'),
-    // }),
-    // new AddAssetHtmlPlugin({
-    //   filepath: path.resolve(__dirname, '../dll/react.dll.js'),
-    // }),
-    // new webpack.DllReferencePlugin({
-    //   manifest: path.resolve(__dirname, '../dll/vendors.manifest.json'),
-    // }),
-    // new webpack.DllReferencePlugin({
-    //   manifest: path.resolve(__dirname, '../dll/react.manifest.json'),
-    // }),
     // new BundleAnalyzerPlugin(),
   ],
   optimization: {
@@ -126,6 +129,8 @@ const commConfig = {
     },
   },
 };
+
+commConfig.plugins = makePlugins(commConfig);
 
 module.exports = (env) => {
   if (env && env.production) {
