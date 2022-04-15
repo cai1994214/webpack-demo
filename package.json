@@ -4,13 +4,18 @@
   "description": "",
   "private": true,
   "scripts": {
-    "dev": "webpack",
-    "debug": "node --inspect --inspect-brk node_modules/webpack/bin/webpack.js"
+    "bundler": "node ./bundler.js | highlight"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "webpack": "^4.26.0",
     "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@babel/core": "^7.17.9",
+    "@babel/parser": "^7.17.9",
+    "@babel/traverse": "^7.17.9"
   }
 }
